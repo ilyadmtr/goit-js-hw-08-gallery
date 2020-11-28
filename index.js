@@ -1,51 +1,44 @@
-import gallery from "./gallery-items.js";
+import gallery from "./gallery-items.js"
 const listGallery = document.querySelector('.js-gallery')
 const lightbox = document.querySelector('.lightbox')
-const lightboxImage = document.querySelector('.lightbox__image')
 const closeLightbox = document.querySelector('.lightbox__button')
-const lightboxOverlay = document.querySelector('.lightbox__overlay')
-
+const lightboxImage = document.querySelector('.lightbox__image')
 listGallery.addEventListener('click', (event)=>{
-  event.preventDefault()
-  lightbox.classList.add('is-open')
-  const modalImageSrc = event.target.dataset.source
-  lightboxImage.setAttribute('src', modalImageSrc)
+  if(event.target.tagName === 'IMG') {
+    event.preventDefault()
+    lightbox.classList.add('is-open')
+    const modalImageSrc =  event.target.dataset.source
+    lightboxImage.setAttribute('src', modalImageSrc)
+    console.dir(event.target)
+  }
 })
-
-lightboxOverlay.addEventListener('click',()=>{
-  lightbox.classList.remove('is-open');
-})
-closeLightbox.addEventListener('click', ()=>{
+closeLightbox.addEventListener('click', (e) => {
   lightbox.classList.remove('is-open')
+  lightboxImage.removeAttribute('src')
 })
-
-
 console.log(gallery)
 
 gallery.map((obj, i, arr)=>{
-console.log(obj);
-const imgPreviewGallery = document.createElement('img')
-imgPreviewGallery.setAttribute('src', obj.preview);
-imgPreviewGallery.setAttribute('alt', obj.description)
-imgPreviewGallery.classList.add('gallery__image')
-imgPreviewGallery.setAttribute('data-source', obj.original)
-imgPreviewGallery.setAttribute('data-value', i)
-console.log(imgPreviewGallery)
+  console.log(obj);
+  const imgPrewiewGallery = document.createElement('img');
+  imgPrewiewGallery.setAttribute('src', obj.preview)
+  imgPrewiewGallery.setAttribute('alt', obj.description)
+  imgPrewiewGallery.classList.add('gallery__image')
+  imgPrewiewGallery.setAttribute('data-source', obj.original)
+  imgPrewiewGallery.setAttribute('data-value', i)
+  console.log(imgPrewiewGallery)
 
-const linkGallery = document.createElement('a')
-linkGallery.classList.add('gallery-link')
-linkGallery.setAttribute('href', obj.original )
+  const linkGallery = document.createElement('a')
+  linkGallery.classList.add('gallery-link')
+  linkGallery.setAttribute('href', obj.original)
 
-linkGallery.appendChild(imgPreviewGallery)
+  linkGallery.appendChild(imgPrewiewGallery)
 
+  const galleryItem = document.createElement('li')
+  galleryItem.classList.add('gallery_item')
 
-const galleryItem = document.createElement('li')
-galleryItem.classList.add('gallery__item')
+  galleryItem.appendChild(linkGallery)
+  console.log(galleryItem);
 
-galleryItem.appendChild(linkGallery)
-console.log(galleryItem);
-
-listGallery.appendChild(galleryItem)
-
-})
-
+  listGallery.appendChild(galleryItem)
+});
